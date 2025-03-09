@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { Link } from 'react-router'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router'
 import { RegisterUser } from '../features/Auth/AuthSlice'
+import LoadingPage from './LoadingPage'
 
 const RegisterPage = () => {
 
+    const {user , isLoading} = useSelector(state => state.Auth)
+    const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const [formData , setFormData] = useState({
@@ -18,10 +21,19 @@ const RegisterPage = () => {
         setFormData({...formData , [e.target.name] : e.target.value})
     }
 
-
     const handleSubmit = (e) =>{
         e.preventDefault()
         dispatch(RegisterUser(formData))
+    }
+
+    useEffect(() =>{
+if(user){
+navigate("/")
+}
+    },[user])
+
+    if(isLoading){
+        return <LoadingPage />
     }
 
   return (

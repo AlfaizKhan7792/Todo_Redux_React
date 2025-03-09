@@ -1,28 +1,33 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-// import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router'
 import { LogOutUser } from '../features/Auth/AuthSlice'
+import LoadingPage from '../Pages/LoadingPage'
 
 const Navbar = () => {
 
-  // const {user} = useSelector((state) => state.Auth)
-  // const navigate = useNavigate()
+  const {user , isLoading} = useSelector((state) => state.Auth)
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const handleSubmit = () =>{
     dispatch(LogOutUser())
   }
 
-//   useEffect(() =>{
-// if(user){
-// navigate('/')
-// }
-//   },[user])
+  useEffect(() =>{
+if(user){
+navigate('/')
+}
+  },[user])
+
+  if(isLoading){
+    return <LoadingPage />
+  }
 
   return (
     <>
-       {/* {
-        !user ?  <></> : */}
+       {
+        !user ?  <></> :
      <nav className="navbar navbar-expand-lg navbar-light bg-secondary">
   <div className="container-fluid">
     <a className="navbar-brand fw-bold fs-3" href="#">Navbar</a>
@@ -36,7 +41,7 @@ const Navbar = () => {
     </div>
   </div>
 </nav> 
-       {/* } */}
+       }
     </>
   )
 }
